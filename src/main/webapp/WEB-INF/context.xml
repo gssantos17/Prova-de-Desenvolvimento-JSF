@@ -1,44 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <!-- Configuração do Pool de Conexões PostgreSQL -->
-    <Resource name="jdbc/sistemafolhabd"
-              auth="Container"
-              type="jakarta.sql.DataSource"
-              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
-              driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://localhost:5432/sistemafolhabd"
-              username="postgres"
-              password="1234"
-
-    <!-- Configurações do pool -->
-    maxTotal="20"
-    maxIdle="10"
-    minIdle="5"
-    maxWaitMillis="10000"
-    initialSize="5"
-
-    <!-- Validação de conexão -->
-    validationQuery="SELECT 1"
-    testOnBorrow="true"
-    testWhileIdle="true"
-    testOnReturn="false"
-    timeBetweenEvictionRunsMillis="30000"
-    minEvictableIdleTimeMillis="60000"
-
-    <!-- Outras otimizações -->
-    removeAbandonedOnBorrow="true"
-    removeAbandonedTimeout="60"
-    logAbandoned="true"
-    jmxEnabled="true"
-
-    <!-- Configurações específicas do PostgreSQL -->
-    connectionProperties="socketTimeout=30;connectTimeout=5"/>
-
-    <!-- Configuração do CDI (Weld) -->
     <Resource name="BeanManager"
               auth="Container"
               type="jakarta.enterprise.inject.spi.BeanManager"
               factory="org.jboss.weld.resources.ManagerObjectFactory"/>
-
-    <!-- Configuração para evitar problemas de memory leak no redeploy -->
-    <Manager pathname="" />
 </Context>
