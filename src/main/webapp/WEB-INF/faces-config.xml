@@ -4,5 +4,11 @@
               xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
                             https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd"
               version="4.0">
-    <!-- Se necessário, configure beans ou navegação aqui -->
+    <navigation-rule>
+        <from-view-id>/page/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/page/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

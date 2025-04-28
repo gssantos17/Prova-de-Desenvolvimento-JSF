@@ -1,0 +1,39 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title><ui:insert name="title">Sistema de Funcionários</ui:insert></title>
+    </h:head>
+
+    <h:body style="margin: 0; padding: 0;">
+
+        <div style="display: flex; height: 100vh;">
+
+            <!-- Menu Lateral -->
+            <div style="width: 250px; background-color: #2c3e50; color: white; padding: 20px;">
+                <h2>Menu</h2>
+                <h:form>
+                    <p:menu style="width:100%;">
+                        <p:submenu label="Funcionários">
+                            <p:menuitem value="Listar Funcionários" outcome="/page/employee/list_employee.xhtml" icon="pi pi-list" />
+                            <p:menuitem value="Novo Funcionário" outcome="/page/employee/create_employee.xhtml" icon="pi pi-user-plus" />
+                        </p:submenu>
+                        <p:menuitem value="Sair" action="#{loginBean.logout}" icon="pi pi-sign-out" />
+                    </p:menu>
+                </h:form>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <div style="flex: 1; padding: 30px;">
+                <ui:insert name="content" />
+            </div>
+
+        </div>
+
+    </h:body>
+
+</ui:composition>

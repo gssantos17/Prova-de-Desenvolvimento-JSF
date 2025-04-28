@@ -61,6 +61,13 @@
         </dependency>
 
         <dependency>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>6.0.1</version> <!-- Verifique a versão correta para Jakarta 9 -->
+        </dependency>
+
+
+        <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-core</artifactId>
             <version>6.0.2.Final</version>
@@ -72,6 +79,27 @@
             <artifactId>weld-servlet-shaded</artifactId>
             <version>6.0.2.Final</version>
         </dependency> -->
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version> <!-- Versão compatível com Jakarta EE 10 -->
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
 
     </dependencies>
 

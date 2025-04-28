@@ -1,0 +1,50 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{employeeBean.employeeID}" />
+        <f:event type="preRenderView" listener="#{employeeBean.onLoad}" />
+    </f:metadata>
+
+    <ui:define name="title">
+        Editar Funcionário
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="formEditarFuncionario">
+            <p:panel header="Editar Funcionário" style="width:50%;margin:auto;">
+
+                <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true"/>
+
+                <h:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+
+                    <h:outputLabel value="Id:" for="name" />
+                    <p:inputText id="id" value="#{employeeBean.selectedEmployee.id}" required="true" />
+
+                    <h:outputLabel value="Nome:" for="name" />
+                    <p:inputText id="name" value="#{employeeBean.selectedEmployee.name}" required="true" />
+
+                    <h:outputLabel value="CPF:" for="cpf" />
+                    <p:inputText id="cpf" value="#{employeeBean.selectedEmployee.cpf}" required="true" maxlength="11" />
+
+                    <h:outputLabel value="Salário Base:" for="baseSalary" />
+                    <p:inputNumber id="baseSalary" value="#{employeeBean.selectedEmployee.baseSalary}" symbol="R$ " decimalSeparator="," thousandSeparator="." />
+                </h:panelGrid>
+
+                <p:separator/>
+
+                <p:commandButton value="Salvar"
+                                 action="#{employeeBean.update}"
+                                 update="messages"
+                                 icon="pi pi-save" />
+                <p:commandButton value="Cancelar" outcome="/page/employee/list_employee.xhtml?faces-redirect=true" styleClass="ui-button-secondary" />
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        Cadastro de Funcionário
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+
+            <p:panel header="Cadastro de Funcionário" styleClass="form-panel">
+
+                <p:panel header="Dados do Funcionário" styleClass="section-panel">
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="form-grid">
+                        <h:outputLabel for="name" value="Nome" />
+                        <p:inputText id="name" value="#{employeeBean.employee.name}" required="true"
+                                     requiredMessage="O nome é obrigatório." />
+
+                        <h:outputLabel for="cpf" value="CPF" />
+                        <p:inputText id="cpf" value="#{employeeBean.employee.cpf}" required="true" maxlength="11"
+                                     oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                                     requiredMessage="O CPF é obrigatório."
+                                     validatorMessage="O CPF deve ter exatamente 11 caracteres.">
+                            <f:validateLength minimum="11" maximum="11" />
+                        </p:inputText>
+
+                        <h:outputLabel for="baseSalary" value="Salário Base" />
+                        <p:inputNumber id="baseSalary" value="#{employeeBean.employee.baseSalary}" required="true"
+                                       requiredMessage="O salário base é obrigatório."
+                                       symbol="R$ " decimalSeparator="," thousandSeparator="." />
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel header="Dados do Usuário" styleClass="section-panel">
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="form-grid">
+                        <h:outputLabel for="username" value="Nome de Usuário" />
+                        <p:inputText id="username" value="#{employeeBean.employee.userAccount.username}" required="true"
+                                     requiredMessage="O nome de usuário é obrigatório." />
+
+                        <h:outputLabel for="password" value="Senha" />
+                        <p:password id="password" value="#{employeeBean.employee.userAccount.password}" required="true"
+                                    requiredMessage="A senha é obrigatória." feedback="true" />
+
+                        <h:outputLabel for="confirmPassword" value="Confirmar Senha" />
+                        <p:password id="confirmPassword" value="#{employeeBean.confirmPassword}" required="true"
+                                    requiredMessage="A confirmação de senha é obrigatória." />
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:commandButton value="Cadastrar" action="#{employeeBean.save}" update="messages"
+                                 styleClass="submit-button" />
+            </p:panel>
+
+            <p:messages id="messages" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>
