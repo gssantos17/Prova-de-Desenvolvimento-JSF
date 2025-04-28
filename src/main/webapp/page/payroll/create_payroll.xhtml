@@ -1,0 +1,97 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <f:metadata>
+        <f:viewParam name="employeeId" value="#{payrollBean.employeeId}" />
+        <f:viewAction action="#{payrollBean.init}" />
+    </f:metadata>
+
+    <ui:define name="title">
+        Cadastrar Folha de Pagamento
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="payrollForm">
+            <p:panel header="Nova Folha de Pagamento">
+
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+                <h:panelGrid columns="3" styleClass="ui-panelgrid-blank" style="width: 100%;">
+
+                    <!-- Se o employeeId não foi passado, permitir selecionar um funcionário -->
+                    <h:outputLabel value="Selecionar Funcionário:" for="employeeSelector" rendered="#{empty payrollBean.employeeId}" />
+                    <p:selectOneMenu id="employeeSelector" value="#{payrollBean.employeeId}" rendered="#{empty payrollBean.employeeId}">
+                        <f:selectItem itemLabel="Selecione um Funcionário" itemValue="#{null}" />
+                        <f:selectItems value="#{payrollBean.allEmployees}" var="emp" itemLabel="#{emp.name}" itemValue="#{emp.id}" />
+                        <p:ajax listener="#{payrollBean.loadEmployeeData}" update="employeeId, employeeName, baseSalary" />
+                    </p:selectOneMenu>
+
+                    <!-- ID do Funcionário (não editável) -->
+                    <h:outputLabel value="ID do Funcionário:" for="employeeId" />
+                    <p:inputText id="employeeId" value="#{payrollBean.employee.id}" readonly="true" />
+
+                    <!-- Nome do Funcionário (não editável) -->
+                    <h:outputLabel value="Funcionário:" for="employeeName" />
+                    <p:inputText id="employeeName" value="#{payrollBean.employee.name}" readonly="true" />
+
+                    <!-- Salário Base (não editável) -->
+                    <h:outputLabel value="Salário Base:" for="baseSalary" />
+                    <p:inputText id="baseSalary" value="#{payrollBean.employee.baseSalary}" readonly="true" />
+
+                    <!-- Período de Pagamento -->
+                    <h:outputLabel value="Mês/Ano Referência:" for="monthYear" />
+                    <p:inputMask id="monthYear" value="#{payrollBean.payroll.monthYear}" mask="99/9999" placeholder="MM/YYYY" />
+
+                    <!-- Outros Proventos -->
+                    <h:outputLabel value="Outros Proventos:" for="otherBenefits" />
+                    <p:inputNumber id="otherBenefits" value="#{payrollBean.payroll.otherBenefits}" />
+
+                    <!-- Descontos -->
+                    <h:outputLabel value="Descontos:" for="discounts" />
+                    <p:inputNumber id="discounts" value="#{payrollBean.payroll.discounts}" />
+
+                </h:panelGrid>
+
+                <p:separator/>
+
+                <!-- Botão para calcular o IRRF -->
+                <div style="text-align: center;">
+                    <p:commandButton value="Calcular IRRF"
+                                     action="#{payrollBean.calculateIrrf}"
+                                     update="messages, irrfValue"
+                                     icon="pi pi-calculator"
+                                     styleClass="ui-button-info" />
+                </div>
+
+                <!-- Exibir o valor do IRRF calculado -->
+                <h:panelGrid columns="2" styleClass="ui-panelgrid-blank" style="width: 100%; margin-top: 20px;">
+                    <h:outputLabel value="Valor do IRRF:" for="irrfValue" />
+                    <p:outputLabel id="irrfValue" value="#{payrollBean.payroll.irrf}">
+                        <f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" />
+                    </p:outputLabel>
+                </h:panelGrid>
+
+                <p:separator/>
+
+                <!-- Botões Salvar e Cancelar -->
+                <div style="text-align: center;">
+                    <p:commandButton value="Salvar"
+                                     action="#{payrollBean.savePayroll}"
+                                     update="messages"
+                                     icon="pi pi-save"
+                                     styleClass="ui-button-primary" />
+
+                    <p:button value="Cancelar"
+                              outcome="/page/employee/list_employee.xhtml"
+                              styleClass="ui-button-secondary" />
+                </div>
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

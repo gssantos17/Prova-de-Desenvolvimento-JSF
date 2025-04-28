@@ -1,6 +1,8 @@
 package com.zdoc.model;
 
-public class UserAccount {
+import java.io.Serializable;
+
+public class UserAccount implements Serializable {
 
     private Long id;
     private String username;

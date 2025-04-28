@@ -1,8 +1,9 @@
 package com.zdoc.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Employee {
+public class Employee implements Serializable {
 
     private Long id;
     private String name;

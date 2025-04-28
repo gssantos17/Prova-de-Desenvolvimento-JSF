@@ -14,15 +14,21 @@
         <div style="display: flex; height: 100vh;">
 
             <!-- Menu Lateral -->
-            <div style="width: 250px; background-color: #2c3e50; color: white; padding: 20px;">
-                <h2>Menu</h2>
+            <div style="width: 250px; background-color: #2c3e50; color: white; padding: 20px; box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);">
+                <h2 style="color: #ecf0f1; font-size: 22px; text-align: center;">Menu</h2>
                 <h:form>
-                    <p:menu style="width:100%;">
-                        <p:submenu label="Funcionários">
-                            <p:menuitem value="Listar Funcionários" outcome="/page/employee/list_employee.xhtml" icon="pi pi-list" />
-                            <p:menuitem value="Novo Funcionário" outcome="/page/employee/create_employee.xhtml" icon="pi pi-user-plus" />
+                    <p:menu model="#{menuBean.menuItems}" styleClass="ui-menu-custom" style="width:100%; color: white;">
+                        <p:submenu label="Funcionários" icon="pi pi-users" styleClass="ui-menuitem-custom">
+                            <p:menuitem value="Listar Funcionários" outcome="/page/employee/list_employee.xhtml" icon="pi pi-list" styleClass="ui-menuitem-custom" />
+                            <p:menuitem value="Novo Funcionário" outcome="/page/employee/create_employee.xhtml" icon="pi pi-user-plus" styleClass="ui-menuitem-custom" />
                         </p:submenu>
-                        <p:menuitem value="Sair" action="#{loginBean.logout}" icon="pi pi-sign-out"/>
+
+                        <p:submenu label="Folha de Pagamento" icon="pi pi-file" styleClass="ui-menuitem-custom">
+                            <p:menuitem value="Listar Folha Salarial" outcome="/page/payroll/list_payroll.xhtml" icon="pi pi-list" styleClass="ui-menuitem-custom" />
+                            <p:menuitem value="Gerar Nova Folha" outcome="/page/payroll/create_payroll.xhtml" icon="pi pi-file-plus" styleClass="ui-menuitem-custom" />
+                        </p:submenu>
+
+                        <p:menuitem value="Sair" action="#{loginBean.logout}" icon="pi pi-sign-out" styleClass="ui-menuitem-custom" />
                     </p:menu>
                 </h:form>
             </div>

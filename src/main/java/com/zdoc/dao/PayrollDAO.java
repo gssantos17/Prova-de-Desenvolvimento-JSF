@@ -1,5 +1,6 @@
 package com.zdoc.dao;
 
+import com.zdoc.model.Employee;
 import com.zdoc.model.Payroll;
 import com.zdoc.infra.bd.ConnectionFactory;
 import jakarta.enterprise.context.RequestScoped;
@@ -32,6 +33,19 @@ public class PayrollDAO {
                     "JOIN employee e ON p.employee_id = e.id " +
                     "WHERE p.id = ?";
 
+    private static final String SELECT_ALL_PAYROLLS_SQL =
+            "SELECT p.*, e.name FROM payroll p " +
+                    "JOIN employee e ON p.employee_id = e.id " +
+                    "ORDER BY p.month_year DESC, e.name";
+
+    private static final String CALCULATE_IRRF_SQL =
+            "SELECT calculate_irrf(?, ?) as irrf_value";
+
+    // Nova consulta para atualizar apenas o IRRF
+    private static final String UPDATE_IRRF_SQL =
+            "UPDATE payroll SET irrf = ?, net_value = (base_salary + other_benefits - discounts - ?) WHERE id = ?";
+
+
     public boolean savePayroll(Payroll payroll) {
         Connection connection = null;
         boolean success = false;
@@ -41,7 +55,7 @@ public class PayrollDAO {
             connection.setAutoCommit(false);
 
             try (PreparedStatement statement = connection.prepareStatement(INSERT_PAYROLL_SQL, Statement.RETURN_GENERATED_KEYS)) {
-                statement.setInt(1, payroll.getEmployeeId());
+                statement.setLong(1, payroll.getEmployee().getId());
                 statement.setString(2, payroll.getMonthYear());
                 statement.setBigDecimal(3, payroll.getBaseSalary());
                 statement.setBigDecimal(4, payroll.getOtherBenefits());
@@ -53,7 +67,7 @@ public class PayrollDAO {
                 if (affectedRows > 0) {
                     try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
-                            payroll.setId(generatedKeys.getInt(1));
+                            payroll.setId(generatedKeys.getLong(1));
                         }
                     }
                     connection.commit();
@@ -70,48 +84,71 @@ public class PayrollDAO {
         return success;
     }
 
-    public Payroll calculatePayroll(int employeeId, BigDecimal otherBenefits, String monthYear) {
-        Payroll payroll = new Payroll();
+    public BigDecimal calculateIrrfValue(BigDecimal baseSalary, BigDecimal otherBenefits) {
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(CALCULATE_IRRF_SQL)) {
+
+            stmt.setBigDecimal(1, baseSalary);
+            stmt.setBigDecimal(2, otherBenefits);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal("irrf_value");
+                }
+            }
+        } catch (SQLException e) {
+            logError("Erro ao calcular IRRF", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    // Método para atualizar apenas o IRRF e o valor líquido
+    public boolean updatePayrollIrrf(Long payrollId, BigDecimal irrfValue) {
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(UPDATE_IRRF_SQL)) {
+
+            stmt.setBigDecimal(1, irrfValue);
+            stmt.setBigDecimal(2, irrfValue);
+            stmt.setLong(3, payrollId);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logError("Erro ao atualizar IRRF da folha", e);
+            return false;
+        }
+    }
+
+    public List<Payroll> getAllPayrolls() {
+        List<Payroll> payrolls = new ArrayList<>();
         Connection connection = null;
 
         try {
             connection = ConnectionFactory.getConnection();
-            try (PreparedStatement statement = connection.prepareStatement(CALCULATE_PAYROLL_SQL)) {
-                statement.setBigDecimal(1, otherBenefits);
-                statement.setBigDecimal(2, otherBenefits);
-                statement.setBigDecimal(3, otherBenefits);
-                statement.setInt(4, employeeId);
+            try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_PAYROLLS_SQL);
+                 ResultSet rs = statement.executeQuery()) {
 
-                try (ResultSet rs = statement.executeQuery()) {
-                    if (rs.next()) {
-                        payroll.setEmployeeId(rs.getInt("id"));
-                        payroll.setEmployeeName(rs.getString("name"));
-                        payroll.setMonthYear(monthYear);
-                        payroll.setBaseSalary(rs.getBigDecimal("base_salary"));
-                        payroll.setOtherBenefits(otherBenefits);
-                        payroll.setDiscounts(BigDecimal.ZERO); // Pode ser ajustado depois
-                        payroll.setIrrf(rs.getBigDecimal("irrf"));
-                        payroll.setNetValue(rs.getBigDecimal("net_value"));
-                    }
+                while (rs.next()) {
+                    Payroll payroll = mapResultSetToPayroll(rs);
+                    payrolls.add(payroll);
                 }
             }
         } catch (SQLException e) {
-            logError("Erro ao calcular folha de pagamento", e);
+            logError("Erro ao buscar todas as folhas de pagamento", e);
         } finally {
             closeConnection(connection);
         }
 
-        return payroll;
+        return payrolls;
     }
 
-    public List<Payroll> getPayrollsByEmployee(int employeeId) {
+    public List<Payroll> getPayrollsByEmployee(Long employeeId) {
         List<Payroll> payrolls = new ArrayList<>();
         Connection connection = null;
 
         try {
             connection = ConnectionFactory.getConnection();
             try (PreparedStatement statement = connection.prepareStatement(SELECT_PAYROLLS_BY_EMPLOYEE_SQL)) {
-                statement.setInt(1, employeeId);
+                statement.setLong(1, employeeId);
 
                 try (ResultSet rs = statement.executeQuery()) {
                     while (rs.next()) {
@@ -129,14 +166,14 @@ public class PayrollDAO {
         return payrolls;
     }
 
-    public Payroll getPayrollById(int payrollId) {
+    public Payroll getPayrollById(Long payrollId) {
         Payroll payroll = null;
         Connection connection = null;
 
         try {
             connection = ConnectionFactory.getConnection();
             try (PreparedStatement statement = connection.prepareStatement(SELECT_PAYROLL_BY_ID_SQL)) {
-                statement.setInt(1, payrollId);
+                statement.setLong(1, payrollId);
 
                 try (ResultSet rs = statement.executeQuery()) {
                     if (rs.next()) {
@@ -154,10 +191,12 @@ public class PayrollDAO {
     }
 
     private Payroll mapResultSetToPayroll(ResultSet rs) throws SQLException {
+        Employee employee = new Employee();
+        employee.setId(rs.getLong("employee_id"));
+        employee.setName(rs.getString("name"));
         Payroll payroll = new Payroll();
-        payroll.setId(rs.getInt("id"));
-        payroll.setEmployeeId(rs.getInt("employee_id"));
-        payroll.setEmployeeName(rs.getString("name"));
+        payroll.setId(rs.getLong("id"));
+        payroll.setEmployee(employee);
         payroll.setMonthYear(rs.getString("month_year"));
         payroll.setBaseSalary(rs.getBigDecimal("base_salary"));
         payroll.setOtherBenefits(rs.getBigDecimal("other_benefits"));

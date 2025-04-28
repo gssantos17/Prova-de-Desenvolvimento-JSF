@@ -16,11 +16,11 @@
 
     <ui:define name="content">
         <h:form id="formEditarFuncionario">
-            <p:panel header="Editar Funcionário" style="width:50%;margin:auto;">
+            <p:panel header="Editar Funcionário" >
 
                 <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true"/>
 
-                <h:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                <h:panelGrid columns="2" >
 
                     <h:outputLabel value="Id:" for="name" />
                     <p:inputText id="id" value="#{employeeBean.selectedEmployee.id}" required="true" />

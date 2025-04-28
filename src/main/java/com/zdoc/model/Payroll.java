@@ -1,11 +1,12 @@
 package com.zdoc.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Payroll {
-    private Integer id;
-    private Integer employeeId;
+public class Payroll implements Serializable {
+    private Long id;
+    private Employee employee;
     private String employeeName;
     private String monthYear;
     private BigDecimal baseSalary;
@@ -16,20 +17,20 @@ public class Payroll {
     private LocalDate createdAt;
 
     // Getters e Setters
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public String getEmployeeName() {

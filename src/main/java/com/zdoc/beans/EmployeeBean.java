@@ -90,6 +90,10 @@ public class EmployeeBean implements Serializable {
         }
     }
 
+    public Employee getEmployeeById(Long id){
+        return  employeeService.getEmployeeById(id);
+    }
+
     // Getters e Setters
     public Employee getEmployee() {
         return employee;

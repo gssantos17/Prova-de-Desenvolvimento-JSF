@@ -42,7 +42,7 @@ public class AuthFilter implements Filter {
     }
 
     private boolean isStaticResource(String requestURI, String contextPath) {
-        return requestURI.startsWith(contextPath + "/javax.faces.resource/")
+        return requestURI.startsWith(contextPath + "/jakarta.faces.resource/")
                 || requestURI.startsWith(contextPath + "/resources/")
                 || requestURI.endsWith(".css")
                 || requestURI.endsWith(".js")
