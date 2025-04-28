@@ -5,7 +5,6 @@ public class UserAccount {
     private Long id;
     private String username;
     private String password;
-    private Employee employee;
 
     // Getters e Setters
     public Long getId() {
@@ -30,13 +29,5 @@ public class UserAccount {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 }

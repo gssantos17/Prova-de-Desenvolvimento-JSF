@@ -17,12 +17,12 @@ public class EmployeeDAO {
             "INSERT INTO employee (name, cpf, base_salary) VALUES (?, ?, ?)";
 
     private static final String SELECT_ALL_EMPLOYEES_SQL =
-            "SELECT e.id, e.name, e.cpf, e.base_salary, u.username " +
-                    "FROM employee e LEFT JOIN user_account u ON e.id = u.employee_id";
+            "SELECT e.id, e.name, e.cpf, e.base_salary " +
+                    "FROM employee e ";
 
     private static final String SELECT_EMPLOYEE_BY_ID_SQL =
-            "SELECT e.id, e.name, e.cpf, e.base_salary, u.username " +
-                    "FROM employee e LEFT JOIN user_account u ON e.id = u.employee_id WHERE e.id = ?";
+            "SELECT e.id, e.name, e.cpf, e.base_salary " +
+                    "FROM employee e WHERE e.id = ?";
 
     private static final String UPDATE_EMPLOYEE_SQL =
             "UPDATE employee SET name = ?, cpf = ?, base_salary = ? WHERE id = ?";
@@ -30,7 +30,7 @@ public class EmployeeDAO {
     @Inject
     private UserDAO userDAO;
 
-    public boolean saveEmployeeWithUser(Employee employee, UserAccount userAccount) {
+    public boolean save(Employee employee) {
         Connection connection = null;
         boolean success = false;
 
@@ -41,12 +41,6 @@ public class EmployeeDAO {
             // 1. Insere o Employee
             if (!insertEmployee(employee, connection)) {
                 throw new SQLException("Falha ao inserir Employee");
-            }
-
-            // 2. Associa e insere o UserAccount
-            userAccount.setEmployee(employee);
-            if (!userDAO.saveUserAccount(userAccount, connection)) {
-                throw new SQLException("Falha ao inserir UserAccount");
             }
 
             connection.commit(); // Confirma transação
@@ -94,11 +88,6 @@ public class EmployeeDAO {
                 employee.setName(resultSet.getString("name"));
                 employee.setCpf(resultSet.getString("cpf"));
                 employee.setBaseSalary(resultSet.getBigDecimal("base_salary"));
-
-                UserAccount userAccount = new UserAccount();
-                userAccount.setUsername(resultSet.getString("username"));
-                employee.setUserAccount(userAccount);
-
                 employees.add(employee);
             }
         } catch (SQLException e) {
@@ -119,11 +108,6 @@ public class EmployeeDAO {
                     employee.setName(resultSet.getString("name"));
                     employee.setCpf(resultSet.getString("cpf"));
                     employee.setBaseSalary(resultSet.getBigDecimal("base_salary"));
-
-                    UserAccount userAccount = new UserAccount();
-                    userAccount.setUsername(resultSet.getString("username"));
-                    employee.setUserAccount(userAccount);
-
                     return employee;
                 }
             }

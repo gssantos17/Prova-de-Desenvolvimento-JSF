@@ -31,11 +31,8 @@ public class AuthService {
 
                 if (rs.next()) {
                     String storedPassword = rs.getString("password");
-                    System.out.println("storedPassword: " + storedPassword);
-                    System.out.println("password: " + password);
 
                     if (BCrypt.checkpw(password, storedPassword)) {
-                        System.out.println("Usuário autenticado com sucesso!");
 
                         // Cria cookie de autenticação
                         createAuthCookie(response, username);

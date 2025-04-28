@@ -38,6 +38,13 @@ public class LoginBean {
         }
     }
 
+    public String logout(){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+        authService.logout(response);
+        return "/page/login.xhtml?faces-redirect=true";
+    }
+
     // Getters e Setters para username e password
 
     public String getUsername() {

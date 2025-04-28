@@ -1,7 +1,6 @@
 package com.zdoc.beans;
 
 import com.zdoc.model.Employee;
-import com.zdoc.model.UserAccount;
 import com.zdoc.service.EmployeeService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -30,20 +29,13 @@ public class EmployeeBean implements Serializable {
     @PostConstruct
     public void init() {
         employee = new Employee();
-        employee.setUserAccount(new UserAccount());
         selectedEmployee = new Employee();
     }
 
     public String save() {
-        // Valida se as senhas coincidem
-        if (!employee.getUserAccount().getPassword().equals(confirmPassword)) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "As senhas não coincidem."));
-            return null;
-        }
 
         // Chama o serviço para salvar o funcionário e o usuário
-        boolean success = employeeService.saveEmployeeWithUser(employee);
+        boolean success = employeeService.save(employee);
 
         if (success) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -57,15 +49,9 @@ public class EmployeeBean implements Serializable {
     }
 
     public String update() {
-        boolean isUpdatePassword = false;
         try {
-            // Atualiza a senha apenas se uma nova foi fornecida
-            if (newPassword != null && !newPassword.isEmpty()) {
-                selectedEmployee.getUserAccount().setPassword(newPassword);
-                isUpdatePassword = true;
-            }
             System.out.println("ID SELECTED " + selectedEmployee.getId());
-            boolean updated = employeeService.updateEmployee(selectedEmployee, isUpdatePassword);
+            boolean updated = employeeService.updateEmployee(selectedEmployee);
 
             if (updated) {
                 FacesContext.getCurrentInstance().addMessage(null,

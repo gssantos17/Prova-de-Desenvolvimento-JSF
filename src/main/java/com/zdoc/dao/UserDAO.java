@@ -13,10 +13,10 @@ import java.sql.SQLException;
 public class UserDAO {
 
     private static final String FIND_BY_USERNAME_SQL =
-            "SELECT id, username, password, employee_id FROM user_account WHERE username = ?";
+            "SELECT id, username, password FROM user_account WHERE username = ?";
 
     private static final String INSERT_USER_ACCOUNT_SQL =
-            "INSERT INTO user_account (username, password, employee_id) VALUES (?, ?, ?)";
+            "INSERT INTO user_account (username, password) VALUES (?, ?, ?)";
 
     // Encontrar um usuário pelo nome de usuário
     public UserAccount findByUsername(String username) {
@@ -32,7 +32,6 @@ public class UserDAO {
                     userAccount.setId(resultSet.getLong("id"));
                     userAccount.setUsername(resultSet.getString("username"));
                     userAccount.setPassword(resultSet.getString("password"));
-                    userAccount.setEmployee(null);  // Não carregamos o Employee neste método
                     return userAccount;
                 }
             }
@@ -47,7 +46,6 @@ public class UserDAO {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_USER_ACCOUNT_SQL)) {
             statement.setString(1, userAccount.getUsername());
             statement.setString(2, userAccount.getPassword());
-            statement.setLong(3, userAccount.getEmployee().getId());
             return statement.executeUpdate() > 0;
         }
     }

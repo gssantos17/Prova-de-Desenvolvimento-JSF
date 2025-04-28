@@ -35,23 +35,6 @@
                                        symbol="R$ " decimalSeparator="," thousandSeparator="." />
                     </h:panelGrid>
                 </p:panel>
-
-                <p:panel header="Dados do Usuário" styleClass="section-panel">
-                    <h:panelGrid columns="2" cellpadding="5" styleClass="form-grid">
-                        <h:outputLabel for="username" value="Nome de Usuário" />
-                        <p:inputText id="username" value="#{employeeBean.employee.userAccount.username}" required="true"
-                                     requiredMessage="O nome de usuário é obrigatório." />
-
-                        <h:outputLabel for="password" value="Senha" />
-                        <p:password id="password" value="#{employeeBean.employee.userAccount.password}" required="true"
-                                    requiredMessage="A senha é obrigatória." feedback="true" />
-
-                        <h:outputLabel for="confirmPassword" value="Confirmar Senha" />
-                        <p:password id="confirmPassword" value="#{employeeBean.confirmPassword}" required="true"
-                                    requiredMessage="A confirmação de senha é obrigatória." />
-                    </h:panelGrid>
-                </p:panel>
-
                 <p:commandButton value="Cadastrar" action="#{employeeBean.save}" update="messages"
                                  styleClass="submit-button" />
             </p:panel>

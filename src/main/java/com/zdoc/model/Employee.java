@@ -8,7 +8,6 @@ public class Employee {
     private String name;
     private String cpf;
     private BigDecimal baseSalary;
-    private UserAccount userAccount;
 
     // Getters e Setters
 
@@ -44,11 +43,4 @@ public class Employee {
         this.baseSalary = baseSalary;
     }
 
-    public UserAccount getUserAccount() {
-        return userAccount;
-    }
-
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
-    }
 }
