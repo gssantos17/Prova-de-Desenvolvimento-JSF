@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Página de Login</title>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:panel header="Sistema de Login">
+                <h:panelGrid columns="2" cellpadding="10">
+                    <h:outputLabel for="username" value="Usuário:" />
+                    <p:inputText id="username" value="#{loginBean.username}" required="true" />
+
+                    <h:outputLabel for="password" value="Senha:" />
+                    <p:password id="password" value="#{loginBean.password}" required="true" />
+
+                    <h:outputLabel />
+                    <p:commandButton value="Login" action="#{loginBean.login}" update="messages" />
+                </h:panelGrid>
+
+                <!-- Componente para exibir mensagens de erro -->
+                <p:messages id="messages" />
+            </p:panel>
+        </h:form>
+    </h:body>
+</ui:composition>
