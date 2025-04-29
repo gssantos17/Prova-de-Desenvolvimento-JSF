@@ -44,14 +44,14 @@ public class AuthService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // Falha na autenticação
+        return null;
     }
 
     private void createAuthCookie(HttpServletResponse response, String username) {
         Cookie cookie = new Cookie(COOKIE_NAME, username);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24); // 1 dia
+        cookie.setMaxAge(60 * 60 );
         response.addCookie(cookie);
         System.out.println("Cookie de autenticação criado: " + cookie.getValue());
     }
@@ -71,7 +71,7 @@ public class AuthService {
     public void logout(HttpServletResponse response) {
         Cookie cookie = new Cookie(COOKIE_NAME, "");
         cookie.setPath("/");
-        cookie.setMaxAge(0); // Expira imediatamente
+        cookie.setMaxAge(0);
         response.addCookie(cookie);
         System.out.println("Cookie de autenticação removido.");
     }
