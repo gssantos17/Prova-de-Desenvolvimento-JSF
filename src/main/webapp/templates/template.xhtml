@@ -28,6 +28,10 @@
                             <p:menuitem value="Gerar Nova Folha" outcome="/page/payroll/create_payroll.xhtml" icon="pi pi-file-plus" styleClass="ui-menuitem-custom" />
                         </p:submenu>
 
+                        <p:submenu label="Relatórios" icon="pi pi-chart-line" styleClass="ui-menuitem-custom">
+                            <p:menuitem value="Relatório de Folhas" outcome="/page/report/list_report.xhtml" icon="pi pi-file-pdf" styleClass="ui-menuitem-custom" />
+                        </p:submenu>
+
                         <p:menuitem value="Sair" action="#{loginBean.logout}" icon="pi pi-sign-out" styleClass="ui-menuitem-custom" />
                     </p:menu>
                 </h:form>

@@ -41,7 +41,6 @@ public class UserDAO {
         return null;
     }
 
-    // Salvar um UserAccount no banco de dados
     public boolean saveUserAccount(UserAccount userAccount, Connection connection) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_USER_ACCOUNT_SQL)) {
             statement.setString(1, userAccount.getUsername());

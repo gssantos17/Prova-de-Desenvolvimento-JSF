@@ -19,11 +19,9 @@ public class AuthService {
 
     private static final String COOKIE_NAME = "userAuth";
 
-    // Autentica o usuário e cria o cookie
     public UserAccount authenticate(String username, String password, HttpServletResponse response) {
         try (Connection connection = ConnectionFactory.getConnection()) {
             String sql = "SELECT id, username, password FROM user_account WHERE username = ?";
-            System.out.println("sql: " + sql);
 
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, username);
@@ -34,7 +32,6 @@ public class AuthService {
 
                     if (BCrypt.checkpw(password, storedPassword)) {
 
-                        // Cria cookie de autenticação
                         createAuthCookie(response, username);
 
                         UserAccount userAccount = new UserAccount();
@@ -50,7 +47,6 @@ public class AuthService {
         return null; // Falha na autenticação
     }
 
-    // Cria o cookie de autenticação
     private void createAuthCookie(HttpServletResponse response, String username) {
         Cookie cookie = new Cookie(COOKIE_NAME, username);
         cookie.setHttpOnly(true);
@@ -60,7 +56,6 @@ public class AuthService {
         System.out.println("Cookie de autenticação criado: " + cookie.getValue());
     }
 
-    // Verifica se o usuário está autenticado via cookie
     public boolean isAuthenticated(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -73,7 +68,6 @@ public class AuthService {
         return false;
     }
 
-    // Faz o logout apagando o cookie
     public void logout(HttpServletResponse response) {
         Cookie cookie = new Cookie(COOKIE_NAME, "");
         cookie.setPath("/");

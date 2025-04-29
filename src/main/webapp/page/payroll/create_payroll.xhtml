@@ -23,8 +23,8 @@
                 <h:panelGrid columns="3" styleClass="ui-panelgrid-blank" style="width: 100%;">
 
                     <!-- Se o employeeId não foi passado, permitir selecionar um funcionário -->
-                    <h:outputLabel value="Selecionar Funcionário:" for="employeeSelector" rendered="#{empty payrollBean.employeeId}" />
-                    <p:selectOneMenu id="employeeSelector" value="#{payrollBean.employeeId}" rendered="#{empty payrollBean.employeeId}">
+                    <h:outputLabel value="Selecionar Funcionário:" for="employeeSelector" />
+                    <p:selectOneMenu id="employeeSelector" value="#{payrollBean.employeeId}">
                         <f:selectItem itemLabel="Selecione um Funcionário" itemValue="#{null}" />
                         <f:selectItems value="#{payrollBean.allEmployees}" var="emp" itemLabel="#{emp.name}" itemValue="#{emp.id}" />
                         <p:ajax listener="#{payrollBean.loadEmployeeData}" update="employeeId, employeeName, baseSalary" />

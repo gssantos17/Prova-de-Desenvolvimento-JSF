@@ -1,0 +1,40 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core">
+
+    <f:metadata>
+        <f:viewAction action="#{reportBean.generatePayrollReport}"
+                      onPostback="false"/>
+    </f:metadata>
+
+    <ui:define name="title">
+        Relatório de Folha de Pagamento
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="formPayrollReport">
+            <p:growl id="messages" showDetail="true" sticky="true"/>
+
+            <div class="card">
+                <h2>Relatório de Folha de Pagamento</h2>
+
+                <p:commandButton value="Atualizar Relatório"
+                                 action="#{reportBean.generatePayrollReport}"
+                                 icon="pi pi-refresh"
+                                 update="reportPanel messages"
+                                 styleClass="p-button-info"/>
+
+                <p:panel id="reportPanel" style="margin-top: 20px;">
+                    <h:outputText value="#{reportBean.reportHtml}"
+                                  escape="false"
+                                  rendered="#{not empty reportBean.reportHtml}"/>
+                    <h:outputText value="Nenhum dado disponível"
+                                  rendered="#{empty reportBean.reportHtml}"/>
+                </p:panel>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
