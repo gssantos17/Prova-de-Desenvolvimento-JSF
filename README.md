@@ -26,7 +26,7 @@ Antes de iniciar a configuração, verifique se os seguintes pré-requisitos est
 ### Passo 3: Deploy da Aplicação
 
 
-1. Executar o comando **mvn clean install** para gerar o arquivo .war
+1. Executar o comando **mvn clean install** para compilar a aplicação
 2. Coloque o arquivo `.war` do projeto na pasta `webapps` do Tomcat.
 3. Inicie o Tomcat executando o script `bin/startup.sh` (Linux/macOS) ou `bin/startup.bat` (Windows).
 4. Acesse a aplicação em `http://localhost:8080/`.
