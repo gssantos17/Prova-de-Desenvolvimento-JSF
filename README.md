@@ -42,6 +42,8 @@ Antes de iniciar a configuração, verifique se os seguintes pré-requisitos est
 
 Crie o banco de dados e configure as tabelas necessárias para o funcionamento do sistema.
 
+**Nome do banco de dados:** sistemafolhabd
+
 #### Comandos SQL para criação das tabelas e função
 
 ```sql
