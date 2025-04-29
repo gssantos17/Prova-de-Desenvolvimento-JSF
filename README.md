@@ -150,8 +150,14 @@ A partir daí, você poderá visualizar e gerenciar os dados dos funcionários, 
 
 
 
-###  Tela relatório
+###  Telas do sistema
 
+![tela_relatorio](https://github.com/user-attachments/assets/cfa19d72-6cc3-4972-8c6e-10b8c0211f4f)
+![tela_inicial](https://github.com/user-attachments/assets/b2a13b48-009e-449d-ba96-0cd5eff63c7c)
+![Listagem_de_funcionario](https://github.com/user-attachments/assets/5bb0052b-4028-49d3-aa4c-5794eb21f73d)
+![folha](https://github.com/user-attachments/assets/c1367e58-a6b0-421b-babe-09479158f996)
+![novo_funcionario](https://github.com/user-attachments/assets/558678e9-8174-47f8-b880-3f62f85f165b)
+![nova_folha](https://github.com/user-attachments/assets/e39c414a-43d2-46b1-b35c-7b0073e7c31f)
 ![tela_relatorio](https://github.com/user-attachments/assets/d9523ba9-1d36-4757-ae8e-475888db673b)
 
 
