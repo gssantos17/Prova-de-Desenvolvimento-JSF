@@ -150,4 +150,7 @@ A partir daí, você poderá visualizar e gerenciar os dados dos funcionários, 
 ![tela_relatorio](https://github.com/user-attachments/assets/d9523ba9-1d36-4757-ae8e-475888db673b)
 
 
+Verificar o arquivo de Design no path> src/main/resources/reports/relatorio_folha_pagamento.jrxml
+
+
 
