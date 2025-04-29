@@ -9,6 +9,7 @@ Antes de iniciar a configuração, verifique se os seguintes pré-requisitos est
 - **Apache Tomcat 10.x**: Servidor de aplicação para deploy da aplicação web.
 - **PostgreSQL 12+**: Banco de dados utilizado para armazenar os dados da aplicação.
 - **JDK 11 ou superior**: Necessário para compilar e executar o sistema.
+- **Maven** : Guia de instalação: https://dicasdeprogramacao.com.br/como-instalar-o-maven-no-windows/
 
 ## Configuração do Apache Tomcat 10.x
 
@@ -24,9 +25,11 @@ Antes de iniciar a configuração, verifique se os seguintes pré-requisitos est
    
 ### Passo 3: Deploy da Aplicação
 
-1. Coloque o arquivo `.war` do projeto na pasta `webapps` do Tomcat.
-2. Inicie o Tomcat executando o script `bin/startup.sh` (Linux/macOS) ou `bin/startup.bat` (Windows).
-3. Acesse a aplicação em `http://localhost:8080/`.
+
+1. Executar o comando **mvn clean install** para gerar o arquivo .war
+2. Coloque o arquivo `.war` do projeto na pasta `webapps` do Tomcat.
+3. Inicie o Tomcat executando o script `bin/startup.sh` (Linux/macOS) ou `bin/startup.bat` (Windows).
+4. Acesse a aplicação em `http://localhost:8080/`.
 
 ## Configuração do Banco de Dados PostgreSQL
 
