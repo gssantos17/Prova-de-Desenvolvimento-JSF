@@ -143,3 +143,11 @@ Faça login com o usuário admin (username: admin, senha: 1234).
 
 A partir daí, você poderá visualizar e gerenciar os dados dos funcionários, calcular o IRRF e gerar relatórios de folha de pagamento.
 
+
+
+###  Tela relatório
+
+![tela_relatorio](https://github.com/user-attachments/assets/d9523ba9-1d36-4757-ae8e-475888db673b)
+
+
+
